@@ -57,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+//            print(container.persistentStoreDescriptions)
         })
         return container
     }()

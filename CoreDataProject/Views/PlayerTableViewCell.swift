@@ -16,6 +16,10 @@ final class PlayerTableViewCell: UITableViewCell {
             if let data = player?.image as Data? {
                 playerImage.image = UIImage(data: data)
             }
+            nationalityLabel.text = player?.nationality
+            teamLabel.text = player?.club
+            positionLabel.text = player?.position
+            ageLabel.text = String(player?.age ?? 0)
         }
     }
     
@@ -31,6 +35,7 @@ final class PlayerTableViewCell: UITableViewCell {
         label.toAutoLayout()
         label.textAlignment = .center
         label.backgroundColor = .systemIndigo
+        label.textColor = .white
         
         return label
     }()
@@ -114,20 +119,35 @@ final class PlayerTableViewCell: UITableViewCell {
     }
 
     private func setupViews() {
-        contentView.addSubviews(playerNumberLabel, playerNameLabel, playerImage)
+        contentView.addSubviews(playerNumberLabel, playerNameLabel, playerImage, teamCaptionLabel, nationalityCaptionLabel, positionCaptionLabel, ageCaptionLabel, teamLabel, nationalityLabel, positionLabel, ageLabel)
         NSLayoutConstraint.activate([
-//            contentView.heightAnchor.constraint(equalToConstant: 300),
             playerNumberLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             playerNumberLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playerNumberLabel.widthAnchor.constraint(equalToConstant: 30),
             playerNumberLabel.heightAnchor.constraint(equalToConstant: 30),
-            playerNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            playerNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             playerNameLabel.leadingAnchor.constraint(equalTo: playerNumberLabel.trailingAnchor, constant: 10),
             playerImage.topAnchor.constraint(equalTo: playerNumberLabel.bottomAnchor, constant: 16),
             playerImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playerImage.widthAnchor.constraint(equalToConstant: 150),
             playerImage.heightAnchor.constraint(equalToConstant: 150),
-            playerImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            playerImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            teamCaptionLabel.topAnchor.constraint(equalTo: playerImage.topAnchor, constant: 10),
+            teamCaptionLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 16),
+            nationalityCaptionLabel.topAnchor.constraint(equalTo: teamCaptionLabel.bottomAnchor, constant: 16),
+            nationalityCaptionLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 16),
+            positionCaptionLabel.topAnchor.constraint(equalTo: nationalityCaptionLabel.bottomAnchor, constant: 16),
+            positionCaptionLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 16),
+            ageCaptionLabel.topAnchor.constraint(equalTo: positionCaptionLabel.bottomAnchor, constant: 16),
+            ageCaptionLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 16),
+            teamLabel.topAnchor.constraint(equalTo: playerImage.topAnchor, constant: 10),
+            teamLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 120),
+            nationalityLabel.topAnchor.constraint(equalTo: teamLabel.bottomAnchor, constant: 16),
+            nationalityLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 120),
+            positionLabel.topAnchor.constraint(equalTo: nationalityLabel.bottomAnchor, constant: 16),
+            positionLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 120),
+            ageLabel.topAnchor.constraint(equalTo: positionLabel.bottomAnchor, constant: 16),
+            ageLabel.leadingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: 120)
         ])
     }
 }

@@ -28,8 +28,7 @@ class ViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
-        tableView.backgroundColor = .cyan
-//        tableView.delegate = self
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(PlayerTableViewCell.self, forCellReuseIdentifier: cellID)
         
@@ -41,9 +40,23 @@ class ViewController: UIViewController {
         
         setupViews()
         fetchPlayer()
+        tableView.reloadData()
         navigationBarSetup()
-        players.forEach { print("\($0.fullName ?? "") - \($0.nationality ?? "")") }
-        
+        if players.isEmpty {
+            let alert = UIAlertController(title: "Data base is empty. \nAdd player, please.", message: nil, preferredStyle: .alert)
+            let okButton = UIAlertAction(title: "Ok", style: .default) {_ in
+                self.addTaped()
+            }
+            alert.addAction(okButton)
+            present(alert, animated: true, completion: nil)
+
+        }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        fetchPlayer()
+        tableView.reloadData()
     }
     
     private func setupViews() {
@@ -57,41 +70,13 @@ class ViewController: UIViewController {
     }
     
     private func navigationBarSetup() {
-        let addButton = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addTaped))
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaped))
         navigationItem.rightBarButtonItem = addButton
     }
     
     @objc func addTaped() {
         let vc = PlayerViewController()
         navigationController?.pushViewController(vc, animated: true)
-/*
-        let alert = UIAlertController(title: "Add player", message: "Enter name", preferredStyle: .alert)
-        alert.addTextField()
-        
-        let addPlayerButton = UIAlertAction(title: "Add", style: .default) { action in
-            let textField = alert.textFields![0]
-            
-            // Create player
-            let player = Player(context: self.context)
-            player.fullName = textField.text
-            player.age = 34
-            player.number = 1334
-            
-            // Save data
-            do {
-                try self.context.save()
-            }
-            catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-            
-            // Reload data
-            self.fetchPlayer()
-        }
-        alert.addAction(addPlayerButton)
-        present(alert, animated: true, completion: nil)
- */
     }
     
     func fetchPlayer() {
@@ -99,27 +84,34 @@ class ViewController: UIViewController {
             self.players =  try! context.fetch(Player.fetchRequest())
         }
     }
-    
-    func createPlayer() {
-        
-
-    }
 }
 
-extension ViewController: UITableViewDataSource {
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         let cell: PlayerTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath) as! PlayerTableViewCell
         let player = players[indexPath.row]
         cell.player = player
-//        cell.textLabel?.text = players[indexPath.row].fullName
         return cell
     }
-    
-    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+            let playerToRemove = self.players[indexPath.row]
+            self.context.delete(playerToRemove)
+            do {
+                try self.context.save()
+            }
+            catch {
+
+            }
+            self.fetchPlayer()
+            tableView.reloadData()
+        }
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 }
+
 

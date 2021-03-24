@@ -12,6 +12,10 @@ final class PlayerTableViewCell: UITableViewCell {
     var player: Player? {
         didSet {
             playerNameLabel.text = player?.fullName
+            playerNumberLabel.text = String(player?.number ?? 0)
+            if let data = player?.image as Data? {
+                playerImage.image = UIImage(data: data)
+            }
         }
     }
     
@@ -25,6 +29,7 @@ final class PlayerTableViewCell: UITableViewCell {
     private var playerNumberLabel: UILabel = {
         let label = UILabel()
         label.toAutoLayout()
+        label.textAlignment = .center
         label.backgroundColor = .systemIndigo
         
         return label
@@ -96,7 +101,7 @@ final class PlayerTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         setupViews()
-        contentView.backgroundColor = .red
+        contentView.backgroundColor = .lightGray
     }
 
     required init?(coder: NSCoder) {
@@ -109,16 +114,15 @@ final class PlayerTableViewCell: UITableViewCell {
     }
 
     private func setupViews() {
-//        contentView.addSubviews(playerImage, playerNameLabel, playerNameLabel, teamCaptionLabel, teamLabel, nationalityCaptionLabel, nationalityLabel, positionCaptionLabel, positionLabel, ageCaptionLabel, ageLabel)
-//        contentView.addSubviews(playerNameLabel, playerNameLabel)
         contentView.addSubviews(playerNumberLabel, playerNameLabel, playerImage)
         NSLayoutConstraint.activate([
+//            contentView.heightAnchor.constraint(equalToConstant: 300),
             playerNumberLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             playerNumberLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playerNumberLabel.widthAnchor.constraint(equalToConstant: 30),
             playerNumberLabel.heightAnchor.constraint(equalToConstant: 30),
             playerNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            playerNameLabel.leftAnchor.constraint(equalTo: playerNumberLabel.rightAnchor, constant: 10),
+            playerNameLabel.leadingAnchor.constraint(equalTo: playerNumberLabel.trailingAnchor, constant: 10),
             playerImage.topAnchor.constraint(equalTo: playerNumberLabel.bottomAnchor, constant: 16),
             playerImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playerImage.widthAnchor.constraint(equalToConstant: 150),

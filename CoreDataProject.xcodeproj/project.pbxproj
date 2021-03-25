@@ -17,6 +17,7 @@
 		31C52E2C260A684E00A748EB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E2A260A684E00A748EB /* ViewController.swift */; };
 		31C52E2D260A684E00A748EB /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E2B260A684E00A748EB /* PlayerViewController.swift */; };
 		31C52E31260A686500A748EB /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E30260A686500A748EB /* PlayerTableViewCell.swift */; };
+		31C52E3F260BAD9800A748EB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E3E260BAD9800A748EB /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		31C52E2A260A684E00A748EB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		31C52E2B260A684E00A748EB /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		31C52E30260A686500A748EB /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
+		31C52E3E260BAD9800A748EB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				31C52E1F260A683E00A748EB /* UIView+Extensions.swift */,
+				31C52E3E260BAD9800A748EB /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				31C52E2D260A684E00A748EB /* PlayerViewController.swift in Sources */,
 				31C52E2C260A684E00A748EB /* ViewController.swift in Sources */,
 				311E7F8C2607BB8A00283E64 /* SceneDelegate.swift in Sources */,
+				31C52E3F260BAD9800A748EB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

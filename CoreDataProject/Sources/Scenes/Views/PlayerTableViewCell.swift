@@ -101,6 +101,17 @@ final class PlayerTableViewCell: UITableViewCell {
 
         return label
     }()
+    
+    //TODO: Не совсем понял зачем это
+    override func prepareForReuse() {
+        playerImage.image = nil
+        playerNumberLabel.text = nil
+        playerNameLabel.text = nil
+        ageLabel.text = nil
+        teamLabel.text = nil
+        positionLabel.text = nil
+        nationalityLabel.text = nil
+    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

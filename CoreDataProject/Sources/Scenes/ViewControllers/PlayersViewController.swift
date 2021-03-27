@@ -101,7 +101,6 @@ extension PlayersViewController: UITableViewDataSource, UITableViewDelegate {
 
             }
             self.fetchPlayer()
-//            tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [action])
     }

@@ -1,5 +1,5 @@
 //
-//  PlayerViewController.swift
+//  AddPlayerViewController.swift
 //  CoreDataProject
 //
 //  Created by Alexey Pavlov on 23.03.2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
     private let pickerData = [["Club 1", "Club 2", "Club 3", "Club 4", "Club 5"], ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]]
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -18,7 +18,7 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
         return imageView
     }()
-    private var playerNumberTF: UITextField = {
+    private var playerNumberTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
         textField.placeholder = "#"
@@ -47,7 +47,7 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         return button
     }()
-    private var nameTF: UITextField = {
+    private var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Name"
         textField.borderStyle = .roundedRect
@@ -55,7 +55,7 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
         return textField
     }()
-    private var nationalityTF: UITextField = {
+    private var nationalityTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Nationality"
         textField.borderStyle = .roundedRect
@@ -63,7 +63,7 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
         return textField
     }()
-    private var ageTF: UITextField = {
+    private var ageTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Age"
         textField.borderStyle = .roundedRect
@@ -111,7 +111,7 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         setupViews()
     }
     
-    @objc func imagePickerTapped() {
+    @objc private func imagePickerTapped() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
@@ -120,12 +120,12 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         present(imagePicker, animated: true, completion: nil)
     }
     
-    @objc func saveButtonTapped() {
+    @objc private func saveButtonTapped() {
         let player = Player(context: self.context)
-        player.fullName = nameTF.text
-        player.nationality = nationalityTF.text
-        player.age = Int16(ageTF.text ?? "0") ?? 0
-        player.number = Int16(playerNumberTF.text ?? "0") ?? 0
+        player.fullName = nameTextField.text
+        player.nationality = nationalityTextField.text
+        player.age = Int16(ageTextField.text ?? "0") ?? 0
+        player.number = Int16(playerNumberTextField.text ?? "0") ?? 0
         player.club = pickerData[0][teamPicker.selectedRow(inComponent: 0)]
         player.position = pickerData[1][teamPicker.selectedRow(inComponent: 0)]
         if let image = playerImage.image {
@@ -140,38 +140,36 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
-        print(teamPicker.selectedRow(inComponent: 0))
-        print(teamPicker.selectedRow(inComponent: 1))
         navigationController?.popViewController(animated: true)
     }
     
     func setupViews() {
-        view.addSubviews(playerImage, playerNumberTF, imagePickerButton, nameTF, nationalityTF, ageTF, teamCaptionLabel, positionCaptionLabel, teamPicker, saveButton)
+        view.addSubviews(playerImage, playerNumberTextField, imagePickerButton, nameTextField, nationalityTextField, ageTextField, teamCaptionLabel, positionCaptionLabel, teamPicker, saveButton)
         NSLayoutConstraint.activate([
             playerImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70),
             playerImage.widthAnchor.constraint(equalToConstant: Constants.playerViewImage),
             playerImage.heightAnchor.constraint(equalToConstant: Constants.playerViewImage),
             playerImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            playerNumberTF.topAnchor.constraint(equalTo: playerImage.topAnchor, constant: 12),
-            playerNumberTF.trailingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: -12),
-            playerNumberTF.widthAnchor.constraint(equalToConstant: Constants.playerNumberTF),
-            playerNumberTF.heightAnchor.constraint(equalToConstant: Constants.playerNumberTF),
+            playerNumberTextField.topAnchor.constraint(equalTo: playerImage.topAnchor, constant: 12),
+            playerNumberTextField.trailingAnchor.constraint(equalTo: playerImage.trailingAnchor, constant: -12),
+            playerNumberTextField.widthAnchor.constraint(equalToConstant: Constants.playerNumberTF),
+            playerNumberTextField.heightAnchor.constraint(equalToConstant: Constants.playerNumberTF),
             imagePickerButton.topAnchor.constraint(equalTo: playerImage.bottomAnchor),
             imagePickerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nameTF.topAnchor.constraint(equalTo: imagePickerButton.bottomAnchor, constant: 16),
-            nameTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
-            nameTF.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth),
-            nationalityTF.topAnchor.constraint(equalTo: nameTF.bottomAnchor, constant: Constants.textFieldBottom),
-            nationalityTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
-            nationalityTF.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth),
-            ageTF.topAnchor.constraint(equalTo: nationalityTF.bottomAnchor, constant: Constants.textFieldBottom),
-            ageTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
-            ageTF.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth),
-            teamCaptionLabel.topAnchor.constraint(equalTo: ageTF.bottomAnchor, constant: Constants.labelBottom),
+            nameTextField.topAnchor.constraint(equalTo: imagePickerButton.bottomAnchor, constant: 16),
+            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
+            nameTextField.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth),
+            nationalityTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: Constants.textFieldBottom),
+            nationalityTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
+            nationalityTextField.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth),
+            ageTextField.topAnchor.constraint(equalTo: nationalityTextField.bottomAnchor, constant: Constants.textFieldBottom),
+            ageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
+            ageTextField.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth),
+            teamCaptionLabel.topAnchor.constraint(equalTo: ageTextField.bottomAnchor, constant: Constants.labelBottom),
             teamCaptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
             teamPicker.topAnchor.constraint(equalTo: teamCaptionLabel.bottomAnchor),
             teamPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            positionCaptionLabel.topAnchor.constraint(equalTo: ageTF.bottomAnchor, constant: Constants.labelBottom),
+            positionCaptionLabel.topAnchor.constraint(equalTo: ageTextField.bottomAnchor, constant: Constants.labelBottom),
             positionCaptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
             saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -196,7 +194,7 @@ class PlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 }
 
 
-extension PlayerViewController {
+extension AddPlayerViewController {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }

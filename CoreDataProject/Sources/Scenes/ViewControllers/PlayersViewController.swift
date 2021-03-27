@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PlayersViewController.swift
 //  CoreDataProject
 //
 //  Created by Alexey Golovin on 21.03.2021.
@@ -8,14 +8,11 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+final class PlayersViewController: UIViewController {
     let cellID = "cellID"
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var players: [Player] = []
-    var clubs: [Clubs]?
-    var nationalities: [Nationalities]?
-    var positions: [Positions]?
     
     let requestButton: UIButton = {
         let button = UIButton()
@@ -43,13 +40,7 @@ class ViewController: UIViewController {
         tableView.reloadData()
         navigationBarSetup()
         if players.isEmpty {
-            let alert = UIAlertController(title: "Data base is empty. \nAdd player, please.", message: nil, preferredStyle: .alert)
-            let okButton = UIAlertAction(title: "Ok", style: .default) {_ in
-                self.addTaped()
-            }
-            alert.addAction(okButton)
-            present(alert, animated: true, completion: nil)
-
+            emptyPlayerAlert()
         }
     }
 
@@ -74,8 +65,8 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
     }
     
-    @objc func addTaped() {
-        let vc = PlayerViewController()
+    @objc private func addTaped() {
+        let vc = AddPlayerViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -86,7 +77,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension PlayersViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count
     }
@@ -100,6 +91,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             let playerToRemove = self.players[indexPath.row]
+            self.players.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             self.context.delete(playerToRemove)
             do {
                 try self.context.save()
@@ -108,9 +101,18 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
             }
             self.fetchPlayer()
-            tableView.reloadData()
+//            tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [action])
+    }
+    
+    func emptyPlayerAlert() {
+        let alert = UIAlertController(title: "Data base is empty. \nAdd player, please.", message: nil, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Ok", style: .default) {_ in
+            self.addTaped()
+        }
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
     }
 }
 

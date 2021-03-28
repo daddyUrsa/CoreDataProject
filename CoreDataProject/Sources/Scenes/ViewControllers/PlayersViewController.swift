@@ -11,6 +11,7 @@ import CoreData
 final class PlayersViewController: UIViewController {
     let cellID = "cellID"
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let coreDataPeroform = CoreDataPerform()
     
     var players: [Player] = []
     
@@ -36,7 +37,8 @@ final class PlayersViewController: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-        fetchPlayer()
+//        fetchPlayer()
+        players = coreDataPeroform.fetchPlayer()
         tableView.reloadData()
         navigationBarSetup()
         if players.isEmpty {
@@ -46,7 +48,8 @@ final class PlayersViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        fetchPlayer()
+//        fetchPlayer()
+        players = coreDataPeroform.fetchPlayer()
         tableView.reloadData()
     }
     
@@ -100,7 +103,8 @@ extension PlayersViewController: UITableViewDataSource, UITableViewDelegate {
             catch {
 
             }
-            self.fetchPlayer()
+//            self.fetchPlayer()
+            self.players = self.coreDataPeroform.fetchPlayer()
         }
         return UISwipeActionsConfiguration(actions: [action])
     }

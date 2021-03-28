@@ -16,4 +16,14 @@ final class CoreDataPerform {
             return try! context.fetch(Player.fetchRequest())
         }
     }
+    
+    func deletePlayer(player: Player) {
+        self.context.delete(player)
+        do {
+            try self.context.save()
+        }
+        catch {
+
+        }
+    }
 }

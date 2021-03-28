@@ -102,7 +102,7 @@ final class PlayerTableViewCell: UITableViewCell {
         return label
     }()
     
-    //TODO: Не совсем понял зачем это
+    //MARK: Обнуление элементов для экономии памяти
     override func prepareForReuse() {
         playerImage.image = nil
         playerNumberLabel.text = nil
@@ -122,11 +122,6 @@ final class PlayerTableViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func cellDataFill(player: Players) {
-        playerNumberLabel.text = String(player.playerNumber)
-        playerNameLabel.text = player.fullName
     }
 
     private func setupViews() {

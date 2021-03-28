@@ -9,11 +9,10 @@ import UIKit
 import CoreData
 
 final class PlayersViewController: UIViewController {
-    let cellID = "cellID"
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    let coreDataPeroform = CoreDataPerform()
-    
-    var players: [Player] = []
+    private let cellID = "cellID"
+    private let coreDataPerform = CoreDataPerform()
+
+    private var players: [Player] = []
     
     let requestButton: UIButton = {
         let button = UIButton()
@@ -37,19 +36,21 @@ final class PlayersViewController: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-//        fetchPlayer()
-        players = coreDataPeroform.fetchPlayer()
-        tableView.reloadData()
-        navigationBarSetup()
-        if players.isEmpty {
-            emptyPlayerAlert()
-        }
+        setupNavigationBar()
+        playersDataPrepare()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-//        fetchPlayer()
-        players = coreDataPeroform.fetchPlayer()
+        players = coreDataPerform.fetchPlayer()
+        tableView.reloadData()
+    }
+    
+    private func playersDataPrepare() {
+        players = coreDataPerform.fetchPlayer()
+        if players.isEmpty {
+            emptyPlayerAlert()
+        }
         tableView.reloadData()
     }
     
@@ -63,7 +64,7 @@ final class PlayersViewController: UIViewController {
         ])
     }
     
-    private func navigationBarSetup() {
+    private func setupNavigationBar() {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaped))
         navigationItem.rightBarButtonItem = addButton
     }
@@ -71,12 +72,6 @@ final class PlayersViewController: UIViewController {
     @objc private func addTaped() {
         let vc = AddPlayerViewController()
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func fetchPlayer() {
-        do {
-            self.players =  try! context.fetch(Player.fetchRequest())
-        }
     }
 }
 
@@ -95,16 +90,11 @@ extension PlayersViewController: UITableViewDataSource, UITableViewDelegate {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             let playerToRemove = self.players[indexPath.row]
             self.players.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            self.context.delete(playerToRemove)
-            do {
-                try self.context.save()
+            tableView.performBatchUpdates { // Вроде как более плавная анимация 🤷‍♂️
+                tableView.deleteRows(at: [indexPath], with: .fade)
             }
-            catch {
-
-            }
-//            self.fetchPlayer()
-            self.players = self.coreDataPeroform.fetchPlayer()
+            self.coreDataPerform.deletePlayer(player: playerToRemove)
+            self.players = self.coreDataPerform.fetchPlayer()
         }
         return UISwipeActionsConfiguration(actions: [action])
     }

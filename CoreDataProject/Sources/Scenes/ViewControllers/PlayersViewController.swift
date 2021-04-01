@@ -42,10 +42,6 @@ final class PlayersViewController: UIViewController {
         playersDataPrepare()
     }
 
-//    override func loadView() {
-//        view = playersTableView
-//    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         players = coreDataPerform.fetchPlayer()

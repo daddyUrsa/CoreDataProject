@@ -1,28 +1,17 @@
 //
-//  PlayersViewController.swift
+//  PlayersTableView.swift
 //  CoreDataProject
 //
-//  Created by Alexey Golovin on 21.03.2021.
+//  Created by Alexey Golovin on 28.03.2021.
 //
 
 import UIKit
-import CoreData
 
-final class PlayersViewController: UIViewController {
+class PlayersTableView: UIView {
     private let cellID = "cellID"
     private let coreDataPerform = CoreDataPerform()
-    
-    let playersTableView = PlayersTableView()
-    
+
     private var players: [Player] = []
-    
-    let requestButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Press me", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -30,63 +19,52 @@ final class PlayersViewController: UIViewController {
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(PlayerTableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.backgroundColor = .red
         
         return tableView
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupViews()
-        setupNavigationBar()
-        playersDataPrepare()
-    }
-
-//    override func loadView() {
-//        view = playersTableView
-//    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        players = coreDataPerform.fetchPlayer()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-        
-    }
     
     private func playersDataPrepare() {
         players = coreDataPerform.fetchPlayer()
         if players.isEmpty {
             emptyPlayerAlert()
         }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        tableView.reloadData()
+    }
+    
+    override init(frame: CGRect) {
+            super.init(frame: frame)
+            setupViews()
+            backgroundColor = .brown
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
     }
     
     private func setupViews() {
-        view.addSubview(tableView)
+        addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.topAnchor.constraint(equalTo: topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
     
-    private func setupNavigationBar() {
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaped))
-        navigationItem.rightBarButtonItem = addButton
-    }
-    
-    @objc private func addTaped() {
-        let vc = AddPlayerViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
+//    private func setupNavigationBar() {
+//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaped))
+////        navigationItem.rightBarButtonItem = addButton
+//    }
+//    
+//    @objc private func addTaped() {
+//        let vc = AddPlayerViewController()
+////        navigationController?.pushViewController(vc, animated: true)
+//    }
 }
 
-extension PlayersViewController: UITableViewDataSource, UITableViewDelegate {
+extension PlayersTableView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count
     }
@@ -113,10 +91,10 @@ extension PlayersViewController: UITableViewDataSource, UITableViewDelegate {
     func emptyPlayerAlert() {
         let alert = UIAlertController(title: "Data base is empty. \nAdd player, please.", message: nil, preferredStyle: .alert)
         let okButton = UIAlertAction(title: "Ok", style: .default) {_ in
-            self.addTaped()
+//            self.addTaped()
         }
         alert.addAction(okButton)
-        present(alert, animated: true, completion: nil)
+//        present(alert, animated: true, completion: nil)
     }
 }
 

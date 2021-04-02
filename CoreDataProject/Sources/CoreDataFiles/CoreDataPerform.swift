@@ -17,6 +17,17 @@ final class CoreDataPerform {
         }
     }
     
+    func savePlayer() {
+        // Save data
+        do {
+            try self.context.save()
+        }
+        catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
     func deletePlayer(player: Player) {
         self.context.delete(player)
         do {
@@ -24,6 +35,17 @@ final class CoreDataPerform {
         }
         catch {
 
+        }
+    }
+    
+    func filterPlayers(name: String, age: Int) -> ([Player]) {
+        let request = Player.fetchRequest() as NSFetchRequest
+        let namePredicate = NSPredicate(format: "%K CONTAINS %@", #keyPath(Player.fullName), name)
+        let agePredicate = NSPredicate(format: "%K > %ld", #keyPath(Player.age), age)
+        let nameAndAge = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, agePredicate])
+        request.predicate = nameAndAge
+        do {
+            return try! context.fetch(request)
         }
     }
 }

@@ -9,8 +9,10 @@ import UIKit
 
 final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
-    private let pickerData = [["Club 1", "Club 2", "Club 3", "Club 4", "Club 5"], ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]]
+    private let teamPickerData = ["Club 1", "Club 2", "Club 3", "Club 4", "Club 5"]
+    private let positionPickerData = ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let coreDataPerform = CoreDataPerform()
     private var playerImage: UIImageView = {
         let imageView = UIImageView()
         imageView.toAutoLayout()
@@ -79,10 +81,24 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
 
         return label
     }()
+    private var teamTextField: UITextField = {
+        let label = UITextField()
+        label.placeholder = "Team"
+        label.toAutoLayout()
+
+        return label
+    }()
     private var positionCaptionLabel: UILabel = {
         let label = UILabel()
         label.text = "Position"
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.toAutoLayout()
+
+        return label
+    }()
+    private var positionTextField: UITextField = {
+        let label = UITextField()
+        label.placeholder = "Position"
         label.toAutoLayout()
 
         return label
@@ -93,6 +109,7 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
         
         return picker
     }()
+    
     private var positionPicker: UIPickerView = {
         let picker = UIPickerView()
         picker.toAutoLayout()
@@ -103,10 +120,6 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        teamPicker.dataSource = self
-        teamPicker.delegate = self
-        positionPicker.dataSource = self
-        positionPicker.delegate = self
         view.backgroundColor = .white
         setupViews()
     }
@@ -126,25 +139,45 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
         player.nationality = nationalityTextField.text
         player.age = Int16(ageTextField.text ?? "0") ?? 0
         player.number = Int16(playerNumberTextField.text ?? "0") ?? 0
-        player.club = pickerData[0][teamPicker.selectedRow(inComponent: 0)]
-        player.position = pickerData[1][teamPicker.selectedRow(inComponent: 0)]
+        player.club = teamTextField.text ?? ""
+        player.position = positionTextField.text ?? ""
         if let image = playerImage.image {
             player.image = image.jpegData(compressionQuality: 0.75)
         }
-        
-        // Save data
-        do {
-            try self.context.save()
-        }
-        catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
+        coreDataPerform.savePlayer()
         navigationController?.popViewController(animated: true)
+        
+    }
+    
+    func pickersSetup() {
+        teamTextField.inputView = teamPicker
+        teamPicker.dataSource = self
+        teamPicker.delegate = self
+        positionTextField.inputView = positionPicker
+        positionPicker.dataSource = self
+        positionPicker.delegate = self
+        dismissPickerView()
+        
+    }
+    
+    func dismissPickerView() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
+        toolBar.setItems([button], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        teamTextField.inputAccessoryView = toolBar
+        positionTextField.inputAccessoryView = toolBar
+        
+    }
+    @objc func action() {
+          view.endEditing(true)
+        
     }
     
     func setupViews() {
-        view.addSubviews(playerImage, playerNumberTextField, imagePickerButton, nameTextField, nationalityTextField, ageTextField, teamCaptionLabel, positionCaptionLabel, teamPicker, saveButton)
+        pickersSetup()
+        view.addSubviews(playerImage, playerNumberTextField, imagePickerButton, nameTextField, nationalityTextField, ageTextField, teamCaptionLabel, positionCaptionLabel, saveButton, teamTextField, positionTextField)
         NSLayoutConstraint.activate([
             playerImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70),
             playerImage.widthAnchor.constraint(equalToConstant: Constants.playerViewImage),
@@ -166,15 +199,17 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
             ageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
             ageTextField.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth),
             teamCaptionLabel.topAnchor.constraint(equalTo: ageTextField.bottomAnchor, constant: Constants.labelBottom),
-            teamCaptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
-            teamPicker.topAnchor.constraint(equalTo: teamCaptionLabel.bottomAnchor),
-            teamPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            positionCaptionLabel.topAnchor.constraint(equalTo: ageTextField.bottomAnchor, constant: Constants.labelBottom),
-            positionCaptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
+            teamCaptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
+            teamTextField.topAnchor.constraint(equalTo: ageTextField.bottomAnchor, constant: Constants.labelBottom),
+            teamTextField.leadingAnchor.constraint(equalTo: teamCaptionLabel.trailingAnchor, constant: Constants.textFieldLeading),
+            positionCaptionLabel.topAnchor.constraint(equalTo: teamCaptionLabel.bottomAnchor, constant: Constants.labelBottom),
+            positionCaptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeading),
+            positionTextField.topAnchor.constraint(equalTo: teamCaptionLabel.bottomAnchor, constant: Constants.labelBottom),
+            positionTextField.leadingAnchor.constraint(equalTo: positionCaptionLabel.trailingAnchor, constant: Constants.textFieldLeading),
             saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-            
         ])
+        
     }
     
     // MARK: - UIImagePickerControllerDelegate Methods
@@ -184,27 +219,47 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
             playerImage.contentMode = .scaleAspectFit
             playerImage.image = pickedImage
         }
-        
         dismiss(animated: true, completion: nil)
+        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+        
     }
 }
 
-
 extension AddPlayerViewController {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
+        return 1
+        
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 5
+        if pickerView == teamPicker {
+            return teamPickerData.count
+        } else {
+            return positionPickerData.count
+        }
+        
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[component][row]
+        if pickerView == teamPicker {
+            return teamPickerData[row]
+        } else {
+            return positionPickerData[row]
+        }
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == teamPicker {
+            teamTextField.text = teamPickerData[row]
+        } else {
+            positionTextField.text = positionPickerData[row]
+        }
+        
     }
 }
 

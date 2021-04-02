@@ -44,7 +44,9 @@ final class PlayersViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        players = coreDataPerform.fetchPlayer()
+//        players = coreDataPerform.fetchPlayer()
+//        players = coreDataPerform.filterPlayers()
+        playersDataPrepare()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -53,6 +55,7 @@ final class PlayersViewController: UIViewController {
     
     private func playersDataPrepare() {
         players = coreDataPerform.fetchPlayer()
+//        players = coreDataPerform.filterPlayers(name: "a", age: 10)
         if players.isEmpty {
             emptyPlayerAlert()
         }

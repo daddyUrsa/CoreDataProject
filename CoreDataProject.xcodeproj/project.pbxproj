@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		311E7F8A2607BB8A00283E64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311E7F892607BB8A00283E64 /* AppDelegate.swift */; };
 		311E7F962607BB8C00283E64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 311E7F952607BB8C00283E64 /* Assets.xcassets */; };
 		311E7F992607BB8C00283E64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311E7F972607BB8C00283E64 /* LaunchScreen.storyboard */; };
+		317173A7261DFD4200928E33 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317173A6261DFD4200928E33 /* SearchViewController.swift */; };
 		31C52E20260A683E00A748EB /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E1F260A683E00A748EB /* UIView+Extensions.swift */; };
 		31C52E26260A684800A748EB /* CoreDataProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E23260A684800A748EB /* CoreDataProject.xcdatamodeld */; };
 		31C52E27260A684800A748EB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E25260A684800A748EB /* Player.swift */; };
@@ -19,6 +20,8 @@
 		31C52E2D260A684E00A748EB /* AddPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E2B260A684E00A748EB /* AddPlayerViewController.swift */; };
 		31C52E31260A686500A748EB /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E30260A686500A748EB /* PlayerTableViewCell.swift */; };
 		31C52E3F260BAD9800A748EB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E3E260BAD9800A748EB /* Constants.swift */; };
+		8FBF41DE261F278400EDA93A /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF41DD261F278400EDA93A /* PickerView.swift */; };
+		995683B1DBE458B14CA65803 /* Pods_CoreDataProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A173F87947CBB63899B76BB /* Pods_CoreDataProject.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,7 @@
 		311E7F952607BB8C00283E64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		311E7F982607BB8C00283E64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		311E7F9A2607BB8C00283E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		317173A6261DFD4200928E33 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		31C52E1F260A683E00A748EB /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		31C52E24260A684800A748EB /* CoreDataProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataProject.xcdatamodel; sourceTree = "<group>"; };
 		31C52E25260A684800A748EB /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -36,6 +40,10 @@
 		31C52E2B260A684E00A748EB /* AddPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlayerViewController.swift; sourceTree = "<group>"; };
 		31C52E30260A686500A748EB /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		31C52E3E260BAD9800A748EB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8A173F87947CBB63899B76BB /* Pods_CoreDataProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreDataProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FBF41DD261F278400EDA93A /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		9370F4D20CFE5DCB51AD0340 /* Pods-CoreDataProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreDataProject.debug.xcconfig"; path = "Target Support Files/Pods-CoreDataProject/Pods-CoreDataProject.debug.xcconfig"; sourceTree = "<group>"; };
+		F8C407C338B75E7FF0E29DE4 /* Pods-CoreDataProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreDataProject.release.xcconfig"; path = "Target Support Files/Pods-CoreDataProject/Pods-CoreDataProject.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995683B1DBE458B14CA65803 /* Pods_CoreDataProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +63,8 @@
 			children = (
 				311E7F882607BB8A00283E64 /* CoreDataProject */,
 				311E7F872607BB8A00283E64 /* Products */,
+				DD83FD423594ED199726183D /* Pods */,
+				9307CD53F459271CBB4A0F40 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,6 +179,7 @@
 			children = (
 				31C52E2A260A684E00A748EB /* PlayersViewController.swift */,
 				31C52E2B260A684E00A748EB /* AddPlayerViewController.swift */,
+				317173A6261DFD4200928E33 /* SearchViewController.swift */,
 			);
 			name = ViewControllers;
 			path = CoreDataProject/Sources/Scenes/ViewControllers;
@@ -178,8 +190,26 @@
 			children = (
 				31C52E30260A686500A748EB /* PlayerTableViewCell.swift */,
 				311911952610B45A00218502 /* PlayersTableView.swift */,
+				8FBF41DD261F278400EDA93A /* PickerView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		9307CD53F459271CBB4A0F40 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A173F87947CBB63899B76BB /* Pods_CoreDataProject.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD83FD423594ED199726183D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9370F4D20CFE5DCB51AD0340 /* Pods-CoreDataProject.debug.xcconfig */,
+				F8C407C338B75E7FF0E29DE4 /* Pods-CoreDataProject.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,9 +219,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 311E7F9D2607BB8C00283E64 /* Build configuration list for PBXNativeTarget "CoreDataProject" */;
 			buildPhases = (
+				109DE434115F378CE3F4FB55 /* [CP] Check Pods Manifest.lock */,
 				311E7F822607BB8A00283E64 /* Sources */,
 				311E7F832607BB8A00283E64 /* Frameworks */,
 				311E7F842607BB8A00283E64 /* Resources */,
+				20E762E660F4AFA9D7C8681A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -246,16 +278,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		109DE434115F378CE3F4FB55 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CoreDataProject-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		20E762E660F4AFA9D7C8681A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CoreDataProject/Pods-CoreDataProject-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CoreDataProject/Pods-CoreDataProject-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CoreDataProject/Pods-CoreDataProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		311E7F822607BB8A00283E64 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				311E7F8A2607BB8A00283E64 /* AppDelegate.swift in Sources */,
+				317173A7261DFD4200928E33 /* SearchViewController.swift in Sources */,
 				31C52E31260A686500A748EB /* PlayerTableViewCell.swift in Sources */,
 				311911962610B45A00218502 /* PlayersTableView.swift in Sources */,
 				31C52E26260A684800A748EB /* CoreDataProject.xcdatamodeld in Sources */,
 				31C52E20260A683E00A748EB /* UIView+Extensions.swift in Sources */,
+				8FBF41DE261F278400EDA93A /* PickerView.swift in Sources */,
 				31C52E27260A684800A748EB /* Player.swift in Sources */,
 				31C52E2D260A684E00A748EB /* AddPlayerViewController.swift in Sources */,
 				31C52E2C260A684E00A748EB /* PlayersViewController.swift in Sources */,
@@ -396,6 +472,7 @@
 		};
 		311E7F9E2607BB8C00283E64 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9370F4D20CFE5DCB51AD0340 /* Pods-CoreDataProject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -416,6 +493,7 @@
 		};
 		311E7F9F2607BB8C00283E64 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8C407C338B75E7FF0E29DE4 /* Pods-CoreDataProject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

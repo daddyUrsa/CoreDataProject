@@ -48,4 +48,28 @@ final class CoreDataPerform {
             return try! context.fetch(request)
         }
     }
+    
+    func filterPlayersInPlay(inPlay: Int) -> ([Player]) {
+        let request = Player.fetchRequest() as NSFetchRequest
+        var inPlayBool = false
+        if inPlay == 0 {
+            do {
+                return try! context.fetch(request)
+            }
+        } else {
+            switch inPlay {
+            case 1:
+                inPlayBool = true
+            case 2:
+                inPlayBool = false
+            default:
+                print("Out of range")
+            }
+            let inPlayPredicate = NSPredicate(format: "%K = %ld", #keyPath(Player.inPlay), inPlayBool)
+            request.predicate = inPlayPredicate
+            do {
+                return try! context.fetch(request)
+            }
+        }
+    }
 }

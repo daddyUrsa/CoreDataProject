@@ -16,7 +16,17 @@ final class PlayersViewController: UIViewController {
     
     private var players: [Player] = []
     
-    let requestButton: UIButton = {
+    private let positionSegmentControl: UISegmentedControl = {
+        let segmentControl = UISegmentedControl(items: ["All","In Play","Bench"])
+        segmentControl.toAutoLayout()
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.backgroundColor = .systemBlue
+        segmentControl.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
+        
+        return segmentControl
+    }()
+    
+    private let requestButton: UIButton = {
         let button = UIButton()
         button.setTitle("Press me", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +36,7 @@ final class PlayersViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +47,7 @@ final class PlayersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .white
         setupViews()
         setupNavigationBar()
         playersDataPrepare()
@@ -65,9 +76,12 @@ final class PlayersViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.addSubview(tableView)
+        view.addSubviews(positionSegmentControl, tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            positionSegmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            positionSegmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            positionSegmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.topAnchor.constraint(equalTo: positionSegmentControl.bottomAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -76,12 +90,26 @@ final class PlayersViewController: UIViewController {
     
     private func setupNavigationBar() {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaped))
+        let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTaped))
         navigationItem.rightBarButtonItem = addButton
+        navigationItem.leftBarButtonItem = searchButton
     }
     
     @objc private func addTaped() {
         let vc = AddPlayerViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func searchTaped() {
+        let vc = SearchViewController()
+        vc.modalPresentationStyle = .formSheet
+        navigationController?.present(vc, animated: true, completion: nil)
+    }
+    
+    @objc func segmentedValueChanged(_ sender:UISegmentedControl!) {
+        print("Selected Segment Index is : \(sender.selectedSegmentIndex)")
+        players = coreDataPerform.filterPlayersInPlay(inPlay: positionSegmentControl.selectedSegmentIndex)
+        tableView.reloadData()
     }
 }
 

@@ -11,7 +11,7 @@ struct Constants {
     static let padding: CGFloat = 16
     static let imageSize: CGFloat = 150
     static let playerNumberLabel: CGFloat = 30
-    static let playerImage: CGFloat = 150
+    static let playerImage: CGFloat = 160
     static let teamLabel: CGFloat = 120
     static let playerViewImage: CGFloat = 200
     static let textFieldWidth: CGFloat = 300

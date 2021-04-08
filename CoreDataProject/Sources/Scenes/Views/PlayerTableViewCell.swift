@@ -20,6 +20,15 @@ final class PlayerTableViewCell: UITableViewCell {
             teamLabel.text = player?.club
             positionLabel.text = player?.position
             ageLabel.text = String(player?.age ?? 0)
+            if let inPlay = player?.inPlay {
+                switch inPlay {
+                case true:
+                    inPlayCaption.text = "In Play"
+                case false:
+                    inPlayCaption.text = "Bench"
+                }
+            }
+//            inPlayCaption.text = String(player?.inPlay ?? false)
         }
     }
     
@@ -39,6 +48,15 @@ final class PlayerTableViewCell: UITableViewCell {
         
         return label
     }()
+    
+    private var inPlayCaption: UILabel = {
+        let label = UILabel()
+        label.toAutoLayout()
+        label.textColor = .orange
+
+        return label
+    }()
+    
     private var playerNameLabel: UILabel = {
         let label = UILabel()
         label.toAutoLayout()
@@ -125,14 +143,16 @@ final class PlayerTableViewCell: UITableViewCell {
     }
 
     private func setupViews() {
-        contentView.addSubviews(playerNumberLabel, playerNameLabel, playerImage, teamCaptionLabel, nationalityCaptionLabel, positionCaptionLabel, ageCaptionLabel, teamLabel, nationalityLabel, positionLabel, ageLabel)
+        contentView.addSubviews(playerNumberLabel, playerNameLabel, playerImage, teamCaptionLabel, nationalityCaptionLabel, positionCaptionLabel, ageCaptionLabel, teamLabel, nationalityLabel, positionLabel, ageLabel, inPlayCaption)
         NSLayoutConstraint.activate([
             playerNumberLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.padding),
             playerNumberLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
             playerNumberLabel.widthAnchor.constraint(equalToConstant: Constants.playerNumberLabel),
-            playerNumberLabel.heightAnchor.constraint(equalToConstant: Constants.playerNumberLabel),
+//            playerNumberLabel.heightAnchor.constraint(equalTo: playerNumberLabel.widthAnchor),
             playerNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             playerNameLabel.leadingAnchor.constraint(equalTo: playerNumberLabel.trailingAnchor, constant: 10),
+            inPlayCaption.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            inPlayCaption.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             playerImage.topAnchor.constraint(equalTo: playerNumberLabel.bottomAnchor, constant: Constants.padding),
             playerImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
             playerImage.widthAnchor.constraint(equalToConstant: Constants.playerImage),

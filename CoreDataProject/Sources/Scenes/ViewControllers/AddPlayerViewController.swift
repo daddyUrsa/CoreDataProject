@@ -13,6 +13,15 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
     private let positionPickerData = ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private let coreDataPerform = CoreDataPerform()
+    private let positionSegmentControl: UISegmentedControl = {
+        let segmentControl = UISegmentedControl(items: ["In Play","Bench"])
+        segmentControl.toAutoLayout()
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.backgroundColor = .systemBlue
+//        segmentControl.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
+        
+        return segmentControl
+    }()
     private var playerImage: UIImageView = {
         let imageView = UIImageView()
         imageView.toAutoLayout()
@@ -144,12 +153,20 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
         if let image = playerImage.image {
             player.image = image.jpegData(compressionQuality: 0.75)
         }
+        switch positionSegmentControl.selectedSegmentIndex {
+        case 0:
+            player.inPlay = true
+        case 1:
+            player.inPlay = false
+        default:
+            print("")
+        }
         coreDataPerform.savePlayer()
         navigationController?.popViewController(animated: true)
         
     }
     
-    func pickersSetup() {
+    private func pickersSetup() {
         teamTextField.inputView = teamPicker
         teamPicker.dataSource = self
         teamPicker.delegate = self
@@ -157,10 +174,9 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
         positionPicker.dataSource = self
         positionPicker.delegate = self
         dismissPickerView()
-        
     }
     
-    func dismissPickerView() {
+    private func dismissPickerView() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
@@ -168,18 +184,20 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
         toolBar.isUserInteractionEnabled = true
         teamTextField.inputAccessoryView = toolBar
         positionTextField.inputAccessoryView = toolBar
-        
     }
-    @objc func action() {
+    @objc private func action() {
           view.endEditing(true)
         
     }
     
-    func setupViews() {
+    private func setupViews() {
         pickersSetup()
-        view.addSubviews(playerImage, playerNumberTextField, imagePickerButton, nameTextField, nationalityTextField, ageTextField, teamCaptionLabel, positionCaptionLabel, saveButton, teamTextField, positionTextField)
+        view.addSubviews(playerImage, playerNumberTextField, imagePickerButton, nameTextField, nationalityTextField, ageTextField, teamCaptionLabel, positionCaptionLabel, saveButton, teamTextField, positionTextField, positionSegmentControl)
         NSLayoutConstraint.activate([
-            playerImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70),
+            positionSegmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            positionSegmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            positionSegmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            playerImage.topAnchor.constraint(equalTo: positionSegmentControl.bottomAnchor, constant: 30),
             playerImage.widthAnchor.constraint(equalToConstant: Constants.playerViewImage),
             playerImage.heightAnchor.constraint(equalToConstant: Constants.playerViewImage),
             playerImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),

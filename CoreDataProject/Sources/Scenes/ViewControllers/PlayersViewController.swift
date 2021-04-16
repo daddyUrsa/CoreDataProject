@@ -94,11 +94,11 @@ final class PlayersViewController: UIViewController {
     
     @objc private func searchTaped() {
         let vc = SearchViewController()
-        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalPresentationStyle = .fullScreen
         navigationController?.present(vc, animated: true, completion: nil)
     }
     
-    @objc func segmentedValueChanged(_ sender:UISegmentedControl!) {
+    @objc private func segmentedValueChanged(_ sender:UISegmentedControl!) {
         print("Selected Segment Index is : \(sender.selectedSegmentIndex)")
         fetchedPlayers = coreDataPerform.filterPlayersInPlay(inPlay: positionSegmentControl.selectedSegmentIndex)
         tableView.reloadData()

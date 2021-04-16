@@ -178,7 +178,7 @@ class SearchViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
     }
     
-    func pickerSetup() {
+    private func pickerSetup() {
         teamTextField.inputView = pickerView.teamPicker
     }
     

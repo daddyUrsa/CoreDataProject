@@ -17,8 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController(rootViewController: PlayersViewController())
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        fetchPlayers()
         
         return true
+    }
+    
+    private func fetchPlayers() {
+        let coreDataPerform = CoreDataPerform()
+        fetchedPlayers = coreDataPerform.fetchPlayer()
     }
 
 //    // MARK: UISceneSession Lifecycle

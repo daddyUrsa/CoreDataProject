@@ -12,10 +12,6 @@ final class PlayersViewController: UIViewController {
     private let cellID = "cellID"
     private let coreDataPerform = CoreDataPerform()
     
-    let playersTableView = PlayersTableView()
-    
-    private var players: [Player] = []
-    
     private let positionSegmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["All","In Play","Bench"])
         segmentControl.toAutoLayout()
@@ -55,21 +51,17 @@ final class PlayersViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-//        players = coreDataPerform.fetchPlayer()
-//        players = coreDataPerform.filterPlayers()
-        playersDataPrepare()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-        
+        reloadTableView()
     }
     
     private func playersDataPrepare() {
-        players = coreDataPerform.fetchPlayer()
-//        players = coreDataPerform.filterPlayers(name: "a", age: 10)
-        if players.isEmpty {
+        if fetchedPlayers.isEmpty {
             emptyPlayerAlert()
         }
+        reloadTableView()
+    }
+    
+    func reloadTableView() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -102,37 +94,37 @@ final class PlayersViewController: UIViewController {
     
     @objc private func searchTaped() {
         let vc = SearchViewController()
-        vc.modalPresentationStyle = .formSheet
+        vc.modalPresentationStyle = .overCurrentContext
         navigationController?.present(vc, animated: true, completion: nil)
     }
     
     @objc func segmentedValueChanged(_ sender:UISegmentedControl!) {
         print("Selected Segment Index is : \(sender.selectedSegmentIndex)")
-        players = coreDataPerform.filterPlayersInPlay(inPlay: positionSegmentControl.selectedSegmentIndex)
+        fetchedPlayers = coreDataPerform.filterPlayersInPlay(inPlay: positionSegmentControl.selectedSegmentIndex)
         tableView.reloadData()
     }
 }
 
 extension PlayersViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return players.count
+        return fetchedPlayers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: PlayerTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath) as! PlayerTableViewCell
-        let player = players[indexPath.row]
+        let player = fetchedPlayers[indexPath.row]
         cell.player = player
         return cell
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            let playerToRemove = self.players[indexPath.row]
-            self.players.remove(at: indexPath.row)
+            let playerToRemove = fetchedPlayers[indexPath.row]
+            fetchedPlayers.remove(at: indexPath.row)
             tableView.performBatchUpdates { // Вроде как более плавная анимация 🤷‍♂️
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
             self.coreDataPerform.deletePlayer(player: playerToRemove)
-            self.players = self.coreDataPerform.fetchPlayer()
+            fetchedPlayers = self.coreDataPerform.fetchPlayer()
         }
         return UISwipeActionsConfiguration(actions: [action])
     }

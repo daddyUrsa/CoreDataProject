@@ -49,6 +49,49 @@ final class CoreDataPerform {
         }
     }
     
+    func searchPlayers(name: String, age: String, equality: Int, position: String, team: String) -> ([Player]) {
+        let request = Player.fetchRequest() as NSFetchRequest
+        var predicates = [NSPredicate]()
+        var equalityPosition: String {
+            get {
+                switch equality {
+                case 0:
+                    return ">="
+                case 1:
+                    return "="
+                case 2:
+                    return "<="
+                default:
+                    return "="
+                }
+            }
+        }
+        if name != "" {
+            let namePredicate = NSPredicate(format: "%K CONTAINS %@", #keyPath(Player.fullName), name)
+            predicates.append(namePredicate)
+        }
+        if age != "" {
+            if let age = Int(age) {
+                let agePredicate = NSPredicate(format: "%K \(equalityPosition) %ld", #keyPath(Player.age), age)
+                predicates.append(agePredicate)
+            }
+        }
+        if position != "" {
+            let positionPredicate = NSPredicate(format: "%K LIKE %@", #keyPath(Player.position), position)
+            predicates.append(positionPredicate)
+        }
+        if team != "" {
+            let teamPredicate = NSPredicate(format: "%K LIKE %@", #keyPath(Player.club), team)
+            predicates.append(teamPredicate)
+        }
+        let allPredicates = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        request.predicate = allPredicates
+        
+        do {
+            return try! context.fetch(request)
+        }
+    }
+    
     func filterPlayersInPlay(inPlay: Int) -> ([Player]) {
         let request = Player.fetchRequest() as NSFetchRequest
         var inPlayBool = false
@@ -68,6 +111,7 @@ final class CoreDataPerform {
             let inPlayPredicate = NSPredicate(format: "%K = %ld", #keyPath(Player.inPlay), inPlayBool)
             request.predicate = inPlayPredicate
             do {
+                print(try! context.fetch(request))
                 return try! context.fetch(request)
             }
         }

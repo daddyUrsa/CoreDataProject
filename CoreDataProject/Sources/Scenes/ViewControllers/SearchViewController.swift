@@ -8,13 +8,16 @@
 import UIKit
 import SnapKit
 
-class SearchViewController: UIViewController {
-//    private let teamPickerData = ["Club 1", "Club 2", "Club 3", "Club 4", "Club 5"]
-//    private let positionPickerData = ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]
-//
-//    private let teamPicker = UIPickerView()
-//    private let positionPicker = UIPickerView()
+class SearchViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    private let coreDataPerform = CoreDataPerform()
+    
+    private let teamPickerData = ["Club 1", "Club 2", "Club 3", "Club 4", "Club 5"]
+    private let positionPickerData = ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]
+
+    private let teamPicker = UIPickerView()
+    private let positionPicker = UIPickerView()
     private let pickerView = PickerView()
+    private let playersViewController = PlayersViewController()
     
     private let modalView: UIView = {
         let modalView = UIView()
@@ -84,6 +87,7 @@ class SearchViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Start search", for: .normal)
         button.setTitleColor(.blue, for: .normal)
+        button.addTarget(self, action: #selector(startSearch), for: .touchUpInside)
         
         return button
     }()
@@ -96,22 +100,28 @@ class SearchViewController: UIViewController {
         return button
     }()
     
+    @objc private func startSearch() {
+        let playerName = nameSearch.text ?? ""
+        let playerAge = ageSearch.text ?? ""
+        let playerPosition = positionTextField.text ?? ""
+        let playerTeam = teamTextField.text ?? ""
+        fetchedPlayers = coreDataPerform.searchPlayers(name: playerName, age: playerAge, equality: chooseSegmentControl.selectedSegmentIndex, position: playerPosition, team: playerTeam)
+        playersViewController.reloadTableView()
+        dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.preferredContentSize = CGSize(width: 200, height: 300)
         setupViews()
-        pickerSetup()
     }
     
     private func setupViews() {
         view.backgroundColor = .clear
-//        pickersSetup()
+        view.isOpaque = false
+        pickersSetup()
         view.addSubviews(modalView, nameSearch, ageSearch, chooseSegmentControl, teamCaptionLabel, teamTextField, positionCaptionLabel, positionTextField, searchButton, resetButton)
-//        view.snp.makeConstraints {
-//            $0.width.equalTo(200)
-//            $0.height.equalTo(300)
-//        }
+
         modalView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(300)
@@ -172,60 +182,60 @@ class SearchViewController: UIViewController {
         teamTextField.inputView = pickerView.teamPicker
     }
     
-//    private func pickersSetup() {
-//        teamTextField.inputView = teamPicker
-//        teamPicker.dataSource = self
-//        teamPicker.delegate = self
-//        positionTextField.inputView = positionPicker
-//        positionPicker.dataSource = self
-//        positionPicker.delegate = self
-//        dismissPickerView()
-//    }
+    private func pickersSetup() {
+        teamTextField.inputView = teamPicker
+        teamPicker.dataSource = self
+        teamPicker.delegate = self
+        positionTextField.inputView = positionPicker
+        positionPicker.dataSource = self
+        positionPicker.delegate = self
+        dismissPickerView()
+    }
     
-//    private func dismissPickerView() {
-//        let toolBar = UIToolbar()
-//        toolBar.sizeToFit()
-//        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
-//        toolBar.setItems([button], animated: true)
-//        toolBar.isUserInteractionEnabled = true
-//        teamTextField.inputAccessoryView = toolBar
-//        positionTextField.inputAccessoryView = toolBar
-//    }
-//    @objc private func action() {
-//          view.endEditing(true)
-//    }
+    private func dismissPickerView() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
+        toolBar.setItems([button], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        teamTextField.inputAccessoryView = toolBar
+        positionTextField.inputAccessoryView = toolBar
+    }
+    @objc private func action() {
+          view.endEditing(true)
+    }
 }
 
-//extension SearchViewController {
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        return 1
-//
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        if pickerView == teamPicker {
-//            return teamPickerData.count
-//        } else {
-//            return positionPickerData.count
-//        }
-//
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        if pickerView == teamPicker {
-//            return teamPickerData[row]
-//        } else {
-//            return positionPickerData[row]
-//        }
-//
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        if pickerView == teamPicker {
-//            teamTextField.text = teamPickerData[row]
-//        } else {
-//            positionTextField.text = positionPickerData[row]
-//        }
-//
-//    }
-//}
+extension SearchViewController {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == teamPicker {
+            return teamPickerData.count
+        } else {
+            return positionPickerData.count
+        }
+
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == teamPicker {
+            return teamPickerData[row]
+        } else {
+            return positionPickerData[row]
+        }
+
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == teamPicker {
+            teamTextField.text = teamPickerData[row]
+        } else {
+            positionTextField.text = positionPickerData[row]
+        }
+
+    }
+}

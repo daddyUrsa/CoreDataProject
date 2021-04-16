@@ -8,7 +8,7 @@
 import UIKit
 
 class PickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
-    private let teamPickerData = ["Club 1", "Club 2", "Club 3", "Club 4", "Club 5"]
+    private let teamPickerData = ["Club 111", "Club 222", "Club 3", "Club 4", "Club 5"]
     private let positionPickerData = ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]
     
     let teamPicker = UIPickerView()
@@ -83,6 +83,6 @@ extension PickerView {
         } else {
             positionPickerText = positionPickerData[row]
         }
-        endEditing(true)
+        
     }
 }

@@ -18,7 +18,6 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
         segmentControl.toAutoLayout()
         segmentControl.selectedSegmentIndex = 0
         segmentControl.backgroundColor = .systemBlue
-//        segmentControl.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
         
         return segmentControl
     }()
@@ -187,7 +186,7 @@ final class AddPlayerViewController: UIViewController, UIPickerViewDelegate, UIP
     }
     @objc private func action() {
           view.endEditing(true)
-        
+
     }
     
     private func setupViews() {

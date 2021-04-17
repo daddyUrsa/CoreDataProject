@@ -12,6 +12,7 @@
 		311E7F8A2607BB8A00283E64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311E7F892607BB8A00283E64 /* AppDelegate.swift */; };
 		311E7F962607BB8C00283E64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 311E7F952607BB8C00283E64 /* Assets.xcassets */; };
 		311E7F992607BB8C00283E64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311E7F972607BB8C00283E64 /* LaunchScreen.storyboard */; };
+		314B27632629FA7000A8FB32 /* PlayerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314B27622629FA7000A8FB32 /* PlayerStorage.swift */; };
 		317173A7261DFD4200928E33 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317173A6261DFD4200928E33 /* SearchViewController.swift */; };
 		31C52E20260A683E00A748EB /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E1F260A683E00A748EB /* UIView+Extensions.swift */; };
 		31C52E26260A684800A748EB /* CoreDataProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31C52E23260A684800A748EB /* CoreDataProject.xcdatamodeld */; };
@@ -32,6 +33,7 @@
 		311E7F952607BB8C00283E64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		311E7F982607BB8C00283E64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		311E7F9A2607BB8C00283E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		314B27622629FA7000A8FB32 /* PlayerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStorage.swift; sourceTree = "<group>"; };
 		317173A6261DFD4200928E33 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		31C52E1F260A683E00A748EB /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		31C52E24260A684800A748EB /* CoreDataProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataProject.xcdatamodel; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				31191192261070CC00218502 /* CoreDataPerform.swift */,
+				314B27622629FA7000A8FB32 /* PlayerStorage.swift */,
 			);
 			path = CoreDataFiles;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				311E7F8A2607BB8A00283E64 /* AppDelegate.swift in Sources */,
 				317173A7261DFD4200928E33 /* SearchViewController.swift in Sources */,
 				31C52E31260A686500A748EB /* PlayerTableViewCell.swift in Sources */,
+				314B27632629FA7000A8FB32 /* PlayerStorage.swift in Sources */,
 				311911962610B45A00218502 /* PlayersTableView.swift in Sources */,
 				31C52E26260A684800A748EB /* CoreDataProject.xcdatamodeld in Sources */,
 				31C52E20260A683E00A748EB /* UIView+Extensions.swift in Sources */,

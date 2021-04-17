@@ -11,6 +11,8 @@ import SnapKit
 class SearchViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     private let coreDataPerform = CoreDataPerform()
     
+    var completionHandler: (() -> Void)?
+    
     private let teamPickerData = ["Club 1", "Club 2", "Club 3", "Club 4", "Club 5"]
     private let positionPickerData = ["Position 1", "Position 2", "Position 3", "Position 4", "Position 5"]
 
@@ -114,6 +116,10 @@ class SearchViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         super.viewDidLoad()
         
         setupViews()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        completionHandler?()
     }
     
     private func setupViews() {

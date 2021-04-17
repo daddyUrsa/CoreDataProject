@@ -94,7 +94,10 @@ final class PlayersViewController: UIViewController {
     
     @objc private func searchTaped() {
         let vc = SearchViewController()
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overFullScreen
+        vc.completionHandler = { [unowned self] in
+            self.reloadTableView()
+        }
         navigationController?.present(vc, animated: true, completion: nil)
     }
     

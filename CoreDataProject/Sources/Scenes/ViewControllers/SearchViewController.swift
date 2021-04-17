@@ -108,7 +108,6 @@ class SearchViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         let playerPosition = positionTextField.text ?? ""
         let playerTeam = teamTextField.text ?? ""
         fetchedPlayers = coreDataPerform.searchPlayers(name: playerName, age: playerAge, equality: chooseSegmentControl.selectedSegmentIndex, position: playerPosition, team: playerTeam)
-        playersViewController.reloadTableView()
         dismiss(animated: true, completion: nil)
     }
     
